@@ -38,11 +38,22 @@ public class AntishadowMove : MonoBehaviour
 
 	}
 
+	//void Reflect()
+	//{
+		//if ((moveVector.x > 0 && !faceRight || moveVector.x < 0 && faceRight)) 
+		//{
+			//transform.localScale *= new Vector2 (-1, 1);
+			//faceRight = !faceRight;
+		//}
+	//}
+	//public bool faceRight = true;
 	void Reflect()
 	{
-		if ((moveVector.x > 0 && !faceRight || moveVector.x < 0 && faceRight)) 
+		if ((moveVector.x > 0 && !faceRight) || (moveVector.x < 0 && faceRight))
 		{
-			transform.localScale *= new Vector2 (-1, 1);
+			Vector3 temp = transform.localScale;
+			temp.x *= -1;
+			transform.localScale = temp;
 			faceRight = !faceRight;
 		}
 	}
