@@ -18,6 +18,7 @@ public class AntishadowMove : MonoBehaviour
 		anim = GetComponent<Animator> ();
 		sr = GetComponent<SpriteRenderer> ();
 		realSpeed = speed;
+		offset = new Vector2 (Mathf.Abs (offset.x), offset.y);
     }
 
     // Update is called once per frame
@@ -90,6 +91,25 @@ public class AntishadowMove : MonoBehaviour
 			anim.SetBool ("run", false);
 			realSpeed = speed;
 		}
+	}
+	public Transform player;
+	public Transform player2;
+	private int lastX;
+	public Vector3 offset = new Vector2(0f,1f);
+
+	void Offset()
+	{
+		player = GameObject.FindGameObjectWithTag ("Player").transform;
+		player2 = GameObject.FindGameObjectWithTag ("Player2").transform;
+		Physics2D.IgnoreLayerCollision (7, 8, true);
+		if (player != player2) {
+			transform.position = new Vector2 (player2.position.x + offset.x, transform.position.y);
+		}
+		if ((Input.GetKey (KeyCode.LeftArrow) && (Input.GetKey (KeyCode.RightArrow)))) {
+			offset = new Vector2 (offset.x + 0.1f, 1f);
+			moveVector.x = Input.GetAxis("Horizontal");
+			anim.SetFloat ("moveX", 1f);
+		} else {offset = new Vector2 (offset.x * 0.999f, 1f);}
 	}
 
 

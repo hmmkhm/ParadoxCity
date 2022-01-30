@@ -27,7 +27,7 @@ public class ShadowMove : MonoBehaviour
 		Walk ();
 		Run ();
 		Reflect();
-		FindPlayer ();
+		Offset ();
 		Jump ();
 		CheckingGround ();
 
@@ -55,7 +55,7 @@ public class ShadowMove : MonoBehaviour
 
 	void Jump()
 	{
-		if (Input.GetKeyDown (KeyCode.W) && onGround) 
+		if (Input.GetKeyDown (KeyCode.UpArrow) && onGround) 
 		{
 			//rb.velocity = new Vector2 (rb.velocity.x, jumpForce);
 			rb.AddForce(Vector2.up * jumpForce);
@@ -88,16 +88,20 @@ public class ShadowMove : MonoBehaviour
 	public Transform player;
 	public Transform player2;
 	private int lastX;
-	public Vector2 offset = new Vector2(2f,1f);
+	public Vector3 offset = new Vector2(0f,1f);
 
-	void FindPlayer()
+	void Offset()
 	{
 		player = GameObject.FindGameObjectWithTag ("Player").transform;
 		player2 = GameObject.FindGameObjectWithTag ("Player2").transform;
 		Physics2D.IgnoreLayerCollision (7, 8, true);
 		if (player != player2) {
-			transform.position = new Vector3 (player.position.x + offset.x, player.position.y, transform.position.z);
+			transform.position = new Vector2 (player.position.x + offset.x, transform.position.y);
 		}
+		if ((Input.GetKey (KeyCode.LeftArrow) && (Input.GetKey (KeyCode.RightArrow)))) {
+			offset = new Vector2 (offset.x + 0.01f, 1f);
+			moveVector.x = -Input.GetAxis("Horizontal");
+		} else {offset = new Vector2 (offset.x * 0.99f, 1f);}
 	}
 
 }
